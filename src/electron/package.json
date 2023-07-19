@@ -1,0 +1,19 @@
+{
+    "name": "cordova-plugin-zip-electron",
+    "version": "1.0.0",
+    "description": "Electron Support for Cordova Zip Plugin",
+    "main": "index.js",
+    "keywords": [
+      "cordova",
+      "electron",
+      "zip"
+    ],
+    "author": "Apache Software Foundation",
+    "license": "Apache-2.0",
+    "dependencies": {
+      "node-stream-zip": "^1.15.0"
+    },
+    "cordova": {
+      "serviceName": "Zip"
+    }
+  }

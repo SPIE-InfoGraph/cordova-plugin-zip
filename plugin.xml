@@ -69,4 +69,9 @@
     </config-file>
     <framework src="libz.dylib" />
   </platform>
+
+  <platform name="electron">
+    <framework src="src/electron" />
+  </platform>
+
 </plugin>
