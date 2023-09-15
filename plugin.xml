@@ -2,20 +2,20 @@
 <plugin xmlns="http://phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-zip"
-    version="3.1.0">
+    version="3.2.1-dev">
   <engines>
     <engine name="cordova" version=">=3.3.0" />
   </engines>
   <dependency id="cordova-plugin-file" version=">=2.0.0" />
-
   <name>cordova-plugin-zip</name>
   <description>Unzips zip files</description>
 
-  <js-module src="zip.js" name="Zip">
-    <clobbers target="zip" />
-  </js-module>
+
 
   <platform name="android">
+    <js-module src="zip.js" name="Zip">
+      <clobbers target="zip" />
+    </js-module>
     <source-file src="src/android/Zip.java" target-dir="src/org/apache/cordova" />
 
     <config-file target="res/xml/config.xml" parent="/widget">
@@ -26,6 +26,9 @@
   </platform>
 
   <platform name="ios">
+    <js-module src="zip.js" name="Zip">
+      <clobbers target="zip" />
+    </js-module>
     <source-file src="src/ios/ZipPlugin.m" />
     <header-file src="src/ios/ZipPlugin.h" />
     <header-file src="src/ios/Common.h" />
@@ -72,6 +75,9 @@
 
   <platform name="electron">
     <framework src="src/electron" />
+    <js-module src="zipElectron.js" name="Zip">
+      <clobbers target="zip" />
+    </js-module>
   </platform>
 
 </plugin>
