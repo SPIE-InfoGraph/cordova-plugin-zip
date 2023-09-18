@@ -36,7 +36,7 @@ async function unzip(fileName, outputDirectory,progressCallbackName) {
   return new Promise(async (reslove , reject)=>{
     try {
       if (!fs.existsSync(outputDirectory)){
-        console.log(outputDirectory);
+        //console.log(outputDirectory);
         await fs.promises.mkdir(outputDirectory,{recursive:true})
       }
       const zip = new StreamZip.async({ file: fileName });
@@ -44,8 +44,8 @@ async function unzip(fileName, outputDirectory,progressCallbackName) {
       zip.on('extract', (entry, file) => {
         counter++;
         mainWindow?.webContents?.executeJavaScript(`if(window.${progressCallbackName})${progressCallbackName}({loaded:${counter},total:${entriesCount}})`).catch((e)=>{
-          console.error("mainWindow.webContents.executeJavaScript[Zip]")
-          console.error(e)
+          // console.error("mainWindow.webContents.executeJavaScript[Zip]")
+          // console.error(e)
         })
       });
       const entries = await zip.entries();
