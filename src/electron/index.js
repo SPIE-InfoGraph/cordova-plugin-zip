@@ -22,8 +22,13 @@
 
 const StreamZip = require('node-stream-zip');
 const fs = require('fs');
-const mainWindow = require('electron').BrowserWindow.getAllWindows()[0]
+let mainWindow = require('electron').BrowserWindow.getAllWindows()[0]
 
+let closeMainWindow = async (e)=>{
+  mainWindow=undefined;
+};
+
+mainWindow.once("close" ,closeMainWindow)
 module.exports = {
 
   unzip:function ([[fileName, outputDirectory,progressCallbackName]]) {
@@ -32,17 +37,22 @@ module.exports = {
 
 };
 async function unzip(fileName, outputDirectory,progressCallbackName) {
-
   return new Promise(async (reslove , reject)=>{
     try {
       if (!fs.existsSync(outputDirectory)){
         //console.log(outputDirectory);
         await fs.promises.mkdir(outputDirectory,{recursive:true})
       }
+      let boolSendJsFeedbackEvery250ms=false
       const zip = new StreamZip.async({ file: fileName });
       zip.on('error', err => { reject(error)});
       zip.on('extract', (entry, file) => {
         counter++;
+        if(boolSendJsFeedbackEvery250ms)
+          return;
+        boolSendJsFeedbackEvery250ms=true;
+        setTimeout(()=>{boolSendJsFeedbackEvery250ms=false;},250);
+
         mainWindow?.webContents?.executeJavaScript(`if(window.${progressCallbackName})${progressCallbackName}({loaded:${counter},total:${entriesCount}})`).catch((e)=>{
           // console.error("mainWindow.webContents.executeJavaScript[Zip]")
           // console.error(e)
@@ -51,6 +61,7 @@ async function unzip(fileName, outputDirectory,progressCallbackName) {
       const entries = await zip.entries();
       const entriesCount = Object.values(entries).filter((etr)=>!etr.isDirectory).length;
       let counter=0
+
       await zip.extract(null, outputDirectory);
     
     
@@ -66,9 +77,6 @@ async function unzip(fileName, outputDirectory,progressCallbackName) {
     } catch (error) {
       reject(error)
     }
-    
-
-
 
   })
   
