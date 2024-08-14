@@ -27,6 +27,7 @@ has been extracted. E.g.:
 The values `loaded` and `total` are the number of compressed bytes processed and total. Total is the
 file size of the zip file.
 
+
 ## Release Notes
 
 ### 3.1.0 (Feb 23, 2016)
